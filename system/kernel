@@ -1,8 +1,22 @@
-local _build = 2
+local _build = 3
 local args = { ... }
+
+local _running = true
 
 function kmain( ... )
 	print("Loading MaCCOS kernel [build " .. _build .. "]")
+	
+	dofile("/system/system.lua")
+	
+	state = start()
+	if state == 0 then
+		while _running do
+			loop()
+		end
+	else
+		printError("Error code: " .. state)
+	end
+	stop()
 end
 local ok, err = pcall(function() kmain(unpack(args)) end)
 if not ok then
