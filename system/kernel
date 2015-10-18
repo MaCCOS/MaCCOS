@@ -1,7 +1,21 @@
-local _build = 3
+local _build = 4
 local args = { ... }
 
 local _running = true
+
+System = {
+	
+}
+
+Screen = {
+	Cursor = {
+
+	}
+}
+
+Directory = {
+	
+}
 
 function kmain( ... )
 	print("Loading MaCCOS kernel [build " .. _build .. "]")
