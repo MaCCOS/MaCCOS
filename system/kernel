@@ -1,2 +1,11 @@
-local _build = 1
-print("Hello world! :D")
+local _build = 2
+local args = { ... }
+
+function kmain( ... )
+	print("Loading MaCCOS kernel [build " .. _build .. "]")
+end
+local ok, err = pcall(function() kmain(unpack(args)) end)
+if not ok then
+	print("\nSomething went wrong :(")
+	print(err)
+end
