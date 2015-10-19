@@ -10,10 +10,20 @@ System = {
 Screen = {
 	Cursor = {
 
+	},
+	Color = {
+
+	},
+	Drawing = {
+
 	}
 }
 
 Directory = {
+	
+}
+
+String = {
 	
 }
 
