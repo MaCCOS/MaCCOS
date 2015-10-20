@@ -1,4 +1,4 @@
-local _build = 9
+local _build = 10
 local args = { ... }
 
 local _dir = ""
@@ -84,6 +84,8 @@ function kmain( ... )
 	
 	dofile("/system/system.lua")
 	
+	dofile("init")
+
 	state = start()
 	if state == 0 then
 		while _running do
