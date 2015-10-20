@@ -4,7 +4,9 @@ local args = { ... }
 local _running = true
 
 System = {
-	
+	halt = os.shutdown,
+	reboot = os.reboot,
+	exit = function() _running = false end
 }
 
 Screen = {
@@ -27,8 +29,14 @@ String = {
 	
 }
 
+Logger = {
+	log = function(string)
+		print("[" .. os.time() .. "] " .. string)
+	end
+}
+
 function kmain( ... )
-	print("Loading MaCCOS kernel [build " .. _build .. "]")
+	Logger.log("Loading MaCCOS kernel [build " .. _build .. "]")
 	
 	dofile("/system/system.lua")
 	
