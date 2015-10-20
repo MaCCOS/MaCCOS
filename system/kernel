@@ -1,4 +1,4 @@
-local _build = 4
+local _build = 5
 local args = { ... }
 
 local _running = true
@@ -11,7 +11,17 @@ System = {
 
 Screen = {
 	Cursor = {
+		_x = 0,
+		_y = 0,
+		_sp = function() term.setCursorPos(Screen.Cursor._x, Screen.Cursor._y) end,
 
+		setPos = function(intX, intY)
+			Screen.Cursor._x = intX
+			Screen.Cursor._y = inty
+			_sp()
+		end,
+		setX = function(int) _x = int _sp() end,
+		setY = function(int) _y = int _sp() end
 	},
 	Color = {
 
