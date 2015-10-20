@@ -1,4 +1,4 @@
-local _build = 5
+local _build = 7
 local args = { ... }
 
 local _running = true
@@ -15,6 +15,7 @@ Screen = {
 		_y = 0,
 		_sp = function() term.setCursorPos(Screen.Cursor._x, Screen.Cursor._y) end,
 
+		getPos = function() return {_x, _y}	end
 		setPos = function(intX, intY)
 			Screen.Cursor._x = intX
 			Screen.Cursor._y = inty
@@ -24,7 +25,14 @@ Screen = {
 		setY = function(int) _y = int _sp() end
 	},
 	Color = {
-
+		Bg = {
+			set = term.setBackgroundColor,
+			get = term.getBackgroundColor
+		},
+		Text = {
+			set = term.setTextColor,
+			get = term.getTextColor
+		}
 	},
 	Drawing = {
 
