@@ -1,7 +1,11 @@
-local _build = 10
+local _build = 11
 local args = { ... }
 
 local _dir = ""
+
+local _logfile = "/system/logs/logfile.log"
+local _lastlogfile = "/system/logs/last.log"
+
 local _running = true
 
 System = {
@@ -74,17 +78,36 @@ String = {
 }
 
 Logger = {
+	file = nil,
+	start = function()
+		file = fs.open(_lastlogfile, "w")
+		return file
+	end,
 	log = function(string)
-		print("[" .. os.time() .. "] " .. string)
+		msg = "[" .. os.time() .. "] " .. string
+		print(msg)
+		file.writeLine(msg)
+	end,
+	stop = function()
+		file.close()
+		f = fs.open(_lastlogfile, "r")
+		data = f.readAll()
+		f.close()
+
+		log = fs.open(_logfile, "a")
+		log.writeLine("\n\n/********************/")
+		log.write(data)
+		log.close()
 	end
 }
 
 function kmain( ... )
+	logfile = Logger.start()
 	Logger.log("Loading MaCCOS kernel [build " .. _build .. "]")
 	
 	dofile("/system/system.lua")
 	
-	dofile("init")
+	dofile("/system/init")
 
 	state = start()
 	if state == 0 then
@@ -95,9 +118,11 @@ function kmain( ... )
 		printError("Error code: " .. state)
 	end
 	stop()
+	Logger.stop(logfile)
 end
 local ok, err = pcall(function() kmain(unpack(args)) end)
 if not ok then
-	print("\nSomething went wrong :(")
-	print(err)
+	Logger.log("\nSomething went wrong :(")
+	Logger.log(err)
+	Logger.stop()
 end
