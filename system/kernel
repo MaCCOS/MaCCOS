@@ -1,6 +1,7 @@
-local _build = 7
+local _build = 8
 local args = { ... }
 
+local _dir = ""
 local _running = true
 
 System = {
@@ -15,7 +16,7 @@ Screen = {
 		_y = 0,
 		_sp = function() term.setCursorPos(Screen.Cursor._x, Screen.Cursor._y) end,
 
-		getPos = function() return {_x, _y}	end
+		getPos = function() return {_x, _y}	end,
 		setPos = function(intX, intY)
 			Screen.Cursor._x = intX
 			Screen.Cursor._y = inty
@@ -40,7 +41,21 @@ Screen = {
 }
 
 Directory = {
-	
+	_setc = function() shell.setDir(_dir) end,
+
+	set = function(str)
+		if Directory.exists(str) and Directory.isDir(str) then
+			newdir = shell.resolve(str)
+			_dir = newdir
+			Directory._setc()
+		end
+	end,
+	get = function() return _dir end,
+	list = fs.list,
+	exists = fs.exists,
+	isDir = fs.isDir,
+	create = fs.makeDir,
+	remove = fs.delete
 }
 
 String = {
