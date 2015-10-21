@@ -1,4 +1,4 @@
-local _build = 12
+local _build = 13
 local args = { ... }
 
 local _dir = ""
@@ -21,8 +21,12 @@ System = {
 
 		if fs.exists(systProgram) then
 			table.remove(program, 1)
-			prog = coroutine.create(function() os.run(getfenv(), systProgram, unpack(program)) end)
+
+			prog = coroutine.create(function()
+				os.run(getfenv(), systProgram, unpack(program))
+			end)
 			coroutine.resume(prog, program)
+
 			return
 		else
 			print("Program not found.")
@@ -65,10 +69,15 @@ Directory = {
 	_setc = function() shell.setDir(_dir) end,
 
 	set = function(str)
-		if Directory.exists(str) and Directory.isDir(str) then
-			newdir = shell.resolve(str)
-			_dir = newdir
+		dir = shell.resolve(str)
+		if Directory.exists(dir) and Directory.isDir(dir) then
+			_dir = shell.resolve(str)
+			if _dir == nil then _dir = "" end
 			Directory._setc()
+			return true
+		else
+			print("Directory not found")
+			return false
 		end
 	end,
 	get = function() return _dir end,
