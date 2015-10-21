@@ -1,4 +1,4 @@
-local _build = 11
+local _build = 12
 local args = { ... }
 
 local _dir = ""
@@ -11,7 +11,24 @@ local _running = true
 System = {
 	halt = os.shutdown,
 	reboot = os.reboot,
-	exit = function() _running = false end
+	exit = function() _running = false end,
+
+	runProgram = function(name)
+		if name == nil then return end
+		program = String.split(name)
+
+		systProgram = "/sysapps/" .. program[1]
+
+		if fs.exists(systProgram) then
+			table.remove(program, 1)
+			prog = coroutine.create(function() os.run(getfenv(), systProgram, unpack(program)) end)
+			coroutine.resume(prog, program)
+			return
+		else
+			print("Program not found.")
+			return
+		end
+	end
 }
 
 Screen = {
@@ -104,9 +121,9 @@ Logger = {
 function kmain( ... )
 	logfile = Logger.start()
 	Logger.log("Loading MaCCOS kernel [build " .. _build .. "]")
-	
+
 	dofile("/system/system.lua")
-	
+
 	dofile("/system/init")
 
 	state = start()
