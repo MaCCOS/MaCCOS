@@ -1,1 +1,2 @@
-os.run({}, "/boot/boot.lua")
+--os.run({}, "/boot/boot.lua")
+shell.run("/boot/boot.lua") --Now we can use shell API
