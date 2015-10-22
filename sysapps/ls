@@ -1,0 +1,25 @@
+if ... ~= nil then
+	dir = shell.resolve(...)
+else
+	dir = Directory.get()
+end
+
+if Directory.exists(dir) then
+	print("Showing files in: /" .. dir)
+	data = Directory.list(dir)
+
+	for i = 1, #data do
+		if Directory.isDir(data[i]) then
+			print(data[i] .. " <DIR>")
+		else
+			ext = String.split(data[i], ".")
+			if (ext[2]) then
+				print(ext[1] .. " <EXT:" .. ext[2] .. ">")
+			else
+				print(ext[1] .. " ")
+			end
+		end
+	end
+else
+	print("Directory not found")
+end
