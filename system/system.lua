@@ -1,4 +1,4 @@
-local _build = 3
+local _build = 4
 
 function start()
 	print("Welcome to MaCCOS [build " .. _build .. "]")
@@ -6,7 +6,7 @@ function start()
 end
 
 function loop()
-	write("/" .. Directory.get() .. "> ")
+	write("\n/" .. Directory.get() .. "> ")
 	System.runProgram(read())
 end
 
