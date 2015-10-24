@@ -1,0 +1,9 @@
+if ... ~= nil then
+	if Directory.exists(...) then
+		Directory.remove(...)
+	else
+		print("File/Directory not found!")
+	end
+else
+	print("Usage: rm <directory/file>")
+end

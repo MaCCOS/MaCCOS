@@ -1,0 +1,6 @@
+if ... ~= nil then
+	f = fs.open(Directory.get() .. "/" .. ..., "w")
+	f.close()
+else
+	print("Usage: touch <file>")
+end

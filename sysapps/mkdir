@@ -1,0 +1,9 @@
+if ... ~= nil then
+	if not Directory.exists(...) then
+		Directory.create(...)
+	else
+		print("Directory already exists!")
+	end
+else
+	print("Usage: mkdir <directory>")
+end
