@@ -1,0 +1,4 @@
+programs = fs.list("/sysapps")
+for i = 1, #programs do
+	write(programs[i] .. "  ")
+end
