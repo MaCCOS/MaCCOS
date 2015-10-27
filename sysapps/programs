@@ -4,7 +4,7 @@ for i = 1, #sysapps do
 	write(sysapps[i] .. "  ")
 end
 if #usrapps > 0 then
-	write("\nUser apps:")
+	write("\nUser apps:\n")
 	for i = 1, #usrapps do
 		write(usrapps[i] .. "  ")
 	end
