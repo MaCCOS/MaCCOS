@@ -33,7 +33,11 @@ runProgram = function(name)
 
 		return
 	elseif Directory.isDir(usr_app) then
-
+		prog = coroutine.create(function()
+			os.run(getfenv(), usr_app .. "/main.lua", unpack(program))
+			main()
+		end)
+		coroutine.resume(prog, program)
 	else
 		print("Program not found.")
 		return
