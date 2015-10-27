@@ -1,4 +1,11 @@
-programs = fs.list("/sysapps")
-for i = 1, #programs do
-	write(programs[i] .. "  ")
+sysapps = fs.list("/sysapps")
+usrapps = fs.list("/usr/apps")
+for i = 1, #sysapps do
+	write(sysapps[i] .. "  ")
+end
+if #usrapps > 0 then
+	write("\nUser apps:")
+	for i = 1, #usrapps do
+		write(usrapps[i] .. "  ")
+	end
 end

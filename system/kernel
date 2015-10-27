@@ -1,4 +1,4 @@
-local _build = 14
+local _build = 15
 local args = { ... }
 
 local _dir = ""
@@ -17,13 +17,17 @@ System = {
 		if name == nil then return end
 		program = String.split(name)
 
-		systProgram = "/sysapps/" .. program[1]
+		app = nil
+		sys_app = "/sysapps/" .. tostring(program[1])
+		usr_app = "/usr/apps/" .. tostring(program[1])
+		if Directory.isFile(sys_app) then	app = sys_app	end
+		if Directory.isFile(usr_app) then	app = usr_app	end
 
-		if fs.exists(systProgram) then
+		if app then
 			table.remove(program, 1)
 
 			prog = coroutine.create(function()
-				os.run(getfenv(), systProgram, unpack(program))
+				os.run(getfenv(), app, unpack(program))
 			end)
 			coroutine.resume(prog, program)
 
@@ -86,7 +90,8 @@ Directory = {
 	exists = fs.exists,
 	isDir = fs.isDir,
 	create = fs.makeDir,
-	remove = fs.delete
+	remove = fs.delete,
+	isFile = function(str) return Directory.exists(str) and not Directory.isDir(str) end
 }
 
 String = {
