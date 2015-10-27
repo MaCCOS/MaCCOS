@@ -11,32 +11,7 @@ local _running = true
 System = {
 	halt = os.shutdown,
 	reboot = os.reboot,
-	exit = function() _running = false end,
-
-	runProgram = function(name)
-		if name == nil then return end
-		program = String.split(name)
-
-		app = nil
-		sys_app = "/sysapps/" .. tostring(program[1])
-		usr_app = "/usr/apps/" .. tostring(program[1])
-		if Directory.isFile(sys_app) then	app = sys_app	end
-		if Directory.isFile(usr_app) then	app = usr_app	end
-
-		if app then
-			table.remove(program, 1)
-
-			prog = coroutine.create(function()
-				os.run(getfenv(), app, unpack(program))
-			end)
-			coroutine.resume(prog, program)
-
-			return
-		else
-			print("Program not found.")
-			return
-		end
-	end
+	exit = function() _running = false end
 }
 
 Screen = {
