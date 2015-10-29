@@ -14,7 +14,7 @@ System = {
 	exit = function() _running = false end
 }
 
-dofile("/system/modules/Screen.mm")
+dofile("/system/modules/Screen.mam")
 
 Directory = {
 	_setc = function() shell.setDir(_dir) end,
