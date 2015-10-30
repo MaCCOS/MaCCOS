@@ -1,4 +1,4 @@
-local _build = 16
+local _build = 18
 local args = { ... }
 
 local _dir = ""
@@ -40,44 +40,9 @@ Directory = {
 	isFile = function(str) return Directory.exists(str) and not Directory.isDir(str) end
 }
 
-String = {
-	split = function(input, reg)
-		if reg == nil then
-			reg = "%s"
-		end
-		local t = {}
-		i = 1
-		for str in string.gmatch(input, "([^" .. reg .. "]+)") do
-			t[i] = str
-			i = i + 1
-		end
-		return t
-	end
-}
+dofile("/system/modules/String.mm.lua")
 
-Logger = {
-	file = nil,
-	start = function()
-		file = fs.open(_lastlogfile, "w")
-		return file
-	end,
-	log = function(string)
-		msg = "[" .. os.time() .. "] " .. string
-		print(msg)
-		file.writeLine(msg)
-	end,
-	stop = function()
-		file.close()
-		f = fs.open(_lastlogfile, "r")
-		data = f.readAll()
-		f.close()
-
-		log = fs.open(_logfile, "a")
-		log.writeLine("\n\n/********************/")
-		log.write(data)
-		log.close()
-	end
-}
+dofile("system/modules/Logger.mm.lua")
 
 function kmain( ... )
 	logfile = Logger.start()
