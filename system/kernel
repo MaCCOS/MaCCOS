@@ -1,10 +1,10 @@
-local _build = 18
+local _build = 19
 local args = { ... }
 
-local _dir = ""
+_dir = ""
 
-local _logfile = "/system/logs/logfile.log"
-local _lastlogfile = "/system/logs/last.log"
+_logfile = "/system/logs/logfile.log"
+_lastlogfile = "/system/logs/last.log"
 
 local _running = true
 
