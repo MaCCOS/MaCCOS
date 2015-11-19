@@ -8,37 +8,11 @@ _lastlogfile = "/system/logs/last.log"
 
 local _running = true
 
-System = {
-	halt = os.shutdown,
-	reboot = os.reboot,
-	exit = function() _running = false end
-}
+dofile("/system/modules/System.mm.lua")
 
 dofile("/system/modules/Screen.mm.lua")
 
-Directory = {
-	_setc = function() shell.setDir(_dir) end,
-
-	set = function(str)
-		dir = shell.resolve(str)
-		if Directory.exists(dir) and Directory.isDir(dir) then
-			_dir = shell.resolve(str)
-			if _dir == nil then _dir = "" end
-			Directory._setc()
-			return true
-		else
-			print("Directory not found")
-			return false
-		end
-	end,
-	get = function() return _dir end,
-	list = fs.list,
-	exists = fs.exists,
-	isDir = fs.isDir,
-	create = fs.makeDir,
-	remove = fs.delete,
-	isFile = function(str) return Directory.exists(str) and not Directory.isDir(str) end
-}
+dofile("/system/modules/Directory.mm.lua")
 
 dofile("/system/modules/String.mm.lua")
 
@@ -63,6 +37,7 @@ function kmain( ... )
 	stop()
 	Logger.stop(logfile)
 end
+
 local ok, err = pcall(function() kmain(unpack(args)) end)
 if not ok then
 	Logger.log("\nSomething went wrong :(")
