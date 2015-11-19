@@ -1,3 +1,6 @@
+_logfile = "/system/logs/logfile.log"
+_lastlogfile = "/system/logs/last.log"
+
 Logger = {
 	file = nil,
 	start = function()

@@ -1,3 +1,5 @@
+_dir = ""
+
 Directory = {
 	_setc = function() shell.setDir(_dir) end,
 

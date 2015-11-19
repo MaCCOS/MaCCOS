@@ -1,10 +1,5 @@
-local _build = 19
+local _build = 22
 local args = { ... }
-
-_dir = ""
-
-_logfile = "/system/logs/logfile.log"
-_lastlogfile = "/system/logs/last.log"
 
 local _running = true
 
@@ -29,7 +24,6 @@ function kmain( ... )
 	Logger.log("Loading MaCCOS kernel [build " .. _build .. "]")
 
 	dofile("/system/system.lua")
-
 	dofile("/system/init")
 
 	state = start()
