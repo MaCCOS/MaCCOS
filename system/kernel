@@ -8,17 +8,23 @@ _lastlogfile = "/system/logs/last.log"
 
 local _running = true
 
-dofile("/system/modules/System.mm.lua")
+modules = {
+	"/system/modules/Directory.mm.lua",
+	"/system/modules/Logger.mm.lua",
+	"/system/modules/Screen.mm.lua",
+	"/system/modules/String.mm.lua",
+	"/system/modules/System.mm.lua"
+}
 
-dofile("/system/modules/Screen.mm.lua")
-
-dofile("/system/modules/Directory.mm.lua")
-
-dofile("/system/modules/String.mm.lua")
-
-dofile("system/modules/Logger.mm.lua")
+function load_module(module_name)
+	dofile(module_name)
+end
 
 function kmain( ... )
+	for i = 1, #modules do
+		load_module(modules[i])
+	end
+
 	logfile = Logger.start()
 	Logger.log("Loading MaCCOS kernel [build " .. _build .. "]")
 
@@ -40,6 +46,7 @@ end
 
 local ok, err = pcall(function() kmain(unpack(args)) end)
 if not ok then
+	load_module(modules[i])
 	Logger.log("\nSomething went wrong :(")
 	Logger.log(err)
 	Logger.stop()
