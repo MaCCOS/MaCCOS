@@ -4,15 +4,16 @@ local args = { ... }
 local _running = true
 
 modules = {
-	"/system/modules/Directory.mm.lua",
-	"/system/modules/Logger.mm.lua",
-	"/system/modules/Screen.mm.lua",
-	"/system/modules/String.mm.lua",
-	"/system/modules/System.mm.lua"
+	"Directory",
+	"Logger",
+	"Screen",
+	"String",
+	"System",
+	"Internet"
 }
 
 function load_module(module_name)
-	dofile(module_name)
+	dofile("/system/modules/" .. module_name .. ".mm.lua")
 end
 
 function kmain( ... )
