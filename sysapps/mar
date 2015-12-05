@@ -1,18 +1,59 @@
 --[[ MaCCOS App Store ]]--
-build = 1
+build = 18
 args = { ... }
 
-if #args < 1 then
-  print("Usage: mas <option> [application]")
+function getAppSize(app_name)
+	size = 0
+	files = fs.list("/usr/apps/" .. app_name)
+
+	for i = 1, #files do
+		f = fs.open("/usr/apps/" .. app_name .. "/" .. files[i], "r")
+		data = f.readAll()
+		size = size + tonumber(string.len(data))
+		f.close()
+	end
+
+	return size
+end
+
+if #args < 2 then
+	print("Usage: mar <option> [application]")
 else
-  option = args[1]
-  -- i -> install
-  if option == "-i" then
+	option = args[1]
+	app_name = args[2]
 
-  -- r -> remove
-  elseif option == "-r" then
+	-- i -> install
+	if option == "-i" then
+		print("Downloading app: " .. app_name)
+		
+		appdata = Internet.DownloadFile("https://raw.githubusercontent.com/MaCCOS/MAR/master/stable/" .. app_name .. "/main.lua")
+		if appdata == nil then error("App not found") end
+		
+		print("App size: " .. string.len(appdata) .. "B")
 
-  else
-    print("Avaliable options: -i -r")
-  end
+		print("Installing app...")
+		app = fs.open("usr/apps/" .. app_name .. "/main.lua", "w")
+		app.write(appdata)--.readAll())
+		
+		--appdata.close()
+		app.close()
+		print("App successfully installed")
+
+	-- r -> remove
+	elseif option == "-r" then
+		print("Removing this app will free up " .. getAppSize(app_name) .. "B of space.")
+		write("Are you sure you want to remove this app? (y/N)")
+		r = read()
+		if r == "y" or r == "Y" then
+			print("Deleting app: " .. app_name)
+			Directory.remove("/usr/apps/" .. app_name)
+		else
+			print("App not removed")
+		end
+	-- u -> update
+	elseif option == "-u" then
+
+	else
+		print("Avaliable options: -i -r")
+	end
 end
