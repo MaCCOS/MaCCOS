@@ -3,14 +3,8 @@ base_url = "https://raw.githubusercontent.com/MaCCOS/MAR/master/stable/"
 Mar = {
 
 	DownloadFileList = function(app_name)
-		data = Internet.DownloadFile(base_url .. app_name .. "/file.lst")
-
-		files = String.split(data, ",")
-		--[[data:gsub(",", function(c) table.insert(files,c) end)
-		for i=1,#files do
-			print(files[i])
-		end]]
-		return files
+		data = Internet.DownloadFile(base_url .. app_name .. "/app.json")
+		return decode(data).files
 	end,
 
 	GetAppSize = function(app_name)
