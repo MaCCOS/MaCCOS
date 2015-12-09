@@ -20,7 +20,7 @@ else
 		Mar.RemoveApp(app_name)
 	-- u -> update
 	elseif option == "-u" then
-
+		Mar.UpdateApp(app_name)
 	else
 		print("Avaliable options: -i -r")
 	end
