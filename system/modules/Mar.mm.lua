@@ -36,5 +36,17 @@ Mar = {
 			f.write(Internet.DownloadFile(base_url .. app_name .. "/" .. files[i]))
 			f.close()
 		end
+	end,
+
+	RemoveApp = function(app_name)
+		print("Removing this app will free up " .. Mar.GetAppSize(app_name) .. "B of space.")
+		write("Are you sure you want to remove this app? (y/N)")
+		r = read()
+		if r == "y" or r == "Y" then
+			print("Deleting app: " .. app_name)
+			Directory.remove("/usr/apps/" .. app_name)
+		else
+			print("App not removed")
+		end
 	end
 }
