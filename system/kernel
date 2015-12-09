@@ -11,6 +11,7 @@ modules = {
 	"System",
 	"Internet",
 	"Mar",
+	"Json"
 }
 
 function load_module(module_name)

@@ -1,7 +1,6 @@
 Internet = {
 	DownloadFile = function(path)
 		http.request(path)
-
 		requesting = true
 
 		while requesting do
@@ -19,7 +18,7 @@ Internet = {
 				requesting = false
 			end
 		end
-		--print(respondedText)
+
 		return respondedText
 	end
 }
