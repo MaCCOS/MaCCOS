@@ -1,5 +1,5 @@
 base_url = "https://raw.githubusercontent.com/MaCCOS/MAR/master/stable/"
-
+base_app_dir = "/usr/apps/"
 Mar = {
 
 	DownloadFileList = function(app_name)
@@ -20,8 +20,26 @@ Mar = {
 
 		return size
 	end,
-	
+
 	DownloadApp = function(app_name)
+		json = Internet.DownloadFile(base_url .. app_name .. "/app.json")
+		data = decode(json)
+
+		f = fs.open(base_app_dir .. app_name .. "/app.json", "w")
+		f.write(data)
+		f.close()
+		
+		for i = 1, #files do
+			print("File:" .. files[i])
+			f = fs.open(base_app_dir .. app_name .. "/" .. files[i], "w")
+			f.write(Internet.DownloadFile(base_url .. app_name .. "/" .. files[i]))
+			f.close()
+		end
+
+	end,
+
+	--[[
+		DownloadApp = function(app_name)
 		files = Mar.DownloadFileList(app_name)
 
 		for i = 1, #files do
@@ -31,6 +49,7 @@ Mar = {
 			f.close()
 		end
 	end,
+	]]--
 
 	RemoveApp = function(app_name)
 		print("Removing this app will free up " .. Mar.GetAppSize(app_name) .. "B of space.")
