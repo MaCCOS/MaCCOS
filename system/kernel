@@ -1,4 +1,4 @@
-local _build = 22
+local _build = 23
 local args = { ... }
 
 local _running = true
@@ -10,12 +10,16 @@ modules = {
 	"String",
 	"System",
 	"Internet",
-	"Mar",
-	"Json"
+	--"Mar",
+	--"Json"
 }
 
 function load_module(module_name)
 	dofile("/system/modules/" .. module_name .. ".mm.lua")
+end
+
+function unload_module(module_name)
+	_ENV[module_name] = nil
 end
 
 function kmain( ... )
