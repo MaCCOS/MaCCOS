@@ -1,11 +1,14 @@
 --[[ MaCCOS App Store ]]--
-build = 24
+build = 26
 args = { ... }
 
 
 if #args < 2 then
 	print("Usage: mar <option> [application]")
 else
+	load_module("Mar")
+	load_module("Json")
+
 	option = args[1]
 	app_name = args[2]
 
@@ -24,4 +27,8 @@ else
 	else
 		print("Avaliable options: -i -r")
 	end
+
+
+	unload_module("Mar")
+	unload_module("Json")
 end
