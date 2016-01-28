@@ -5,7 +5,7 @@ print("This will uninstall MaCCOS from your computer!")
 write("Are you sure? (y/N): ")
 ans = read()
 
-if ans == "y" or ans = "Y" then
+if ans == "y" or ans == "Y" then
     Directory.remove("/boot")
     Directory.remove("/sysapps")
     Directory.remove("/system")
@@ -13,7 +13,7 @@ if ans == "y" or ans = "Y" then
     write("Do you want to remove user data? (y/N): ")
     ans2 = read()
     
-    if ans2 == "y" or ans2 = "Y" then
+    if ans2 == "y" or ans2 == "Y" then
         Directory.remove("/usr")
         print("User data removed.") 
     end
