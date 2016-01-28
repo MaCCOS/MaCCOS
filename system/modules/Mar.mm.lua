@@ -20,13 +20,23 @@ Mar = {
 
 		return size
 	end,
+    
+    GetAppData = function(app_name)
+        json_file = fs.open(base_app_dir .. app_name .. "/app.json", "r")
+        json_encoded = json_file.readAll()
+        
+        app_data = decode(json_encoded)
+        json_file.close()
+
+        return app_data
+    end,
 
 	DownloadApp = function(app_name)
 		json = Internet.DownloadFile(base_url .. app_name .. "/app.json")
 		data = decode(json)
 
 		f = fs.open(base_app_dir .. app_name .. "/app.json", "w")
-		f.write(data)
+		f.write(json)
 		f.close()
 		
 		files = data.files
@@ -39,32 +49,41 @@ Mar = {
 
 	end,
 
-	--[[
-		DownloadApp = function(app_name)
-		files = Mar.DownloadFileList(app_name)
-
-		for i = 1, #files do
-			print("File:" .. files[i])
-			f = fs.open("/usr/apps/" .. app_name .. "/" .. files[i], "w")
-			f.write(Internet.DownloadFile(base_url .. app_name .. "/" .. files[i]))
-			f.close()
-		end
-	end,
-	]]--
-
-	RemoveApp = function(app_name)
-		print("Removing this app will free up " .. Mar.GetAppSize(app_name) .. "B of space.")
-		write("Are you sure you want to remove this app? (y/N): ")
-		r = read()
-		if r == "y" or r == "Y" then
-			print("Deleting app: " .. app_name)
-			Directory.remove("/usr/apps/" .. app_name)
-		else
-			print("App not removed")
-		end
+	RemoveApp = function(app_name, silent)
+        if not silent then
+            print("Removing this app will free up " .. Mar.GetAppSize(app_name) .. "B of space.")
+            write("Are you sure you want to remove this app? (y/N): ")
+            r = read()
+            if r == "y" or r == "Y" then
+                print("Deleting app: " .. app_name)
+                Directory.remove("/usr/apps/" .. app_name)
+            else
+                print("App not removed")
+            end
+        else
+            Directory.remove("/usr/apps/" .. app_name)
+        end
 	end,
 
 	UpdateApp = function(app_name)
-		--Check app version
+        json = Internet.DownloadFile(base_url .. app_name .. "/app.json")
+		data = decode(json)
+        local_data = Mar.GetAppData(app_name)
+        
+        new_version = data.version.major
+        local_version = local_data.version.major
+        
+        if  new_version > local_version then
+            print("An update is avaliable!")
+            print("New version: " .. new_version .. " - Installed version: " .. local_version)
+            --Would you like to update?
+            
+            Mar.RemoveApp(app_name, true)
+            Mar.DownloadApp(app_name)
+            print(app_name .. " was successfully updated!")
+        else
+            print(app_name .. " is up to date. Version: " .. local_version)
+        end
+        
 	end
 }
