@@ -27,7 +27,7 @@ function kmain( ... )
 		load_module(modules[i])
 	end
 
-	logfile = Logger.start()
+	Logger.start()
 	Logger.log("Loading MaCCOS kernel [build " .. _build .. "]")
 
 	dofile("/system/system.lua")
@@ -42,12 +42,13 @@ function kmain( ... )
 		printError("Error code: " .. state)
 	end
 	stop()
-	Logger.stop(logfile)
+	Logger.stop()
 end
 
 local ok, err = pcall(function() kmain(unpack(args)) end)
 if not ok then
-	load_module(modules[i])
+	load_module("Logger")
+    Logger.start()
 	Logger.log("\nSomething went wrong :(")
 	Logger.log(err)
 	Logger.stop()
