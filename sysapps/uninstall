@@ -1,0 +1,28 @@
+Screen.clear()
+Screen.Cursor.setPos(1, 1)
+print("---------------MaCCOS unninstaller---------------")
+print("This will uninstall MaCCOS from your computer!")
+write("Are you sure? (y/N): ")
+ans = read()
+
+if ans == "y" or ans = "Y" then
+    Directory.remove("/boot")
+    Directory.remove("/sysapps")
+    Directory.remove("/system")
+    
+    write("Do you want to remove user data? (y/N): ")
+    ans2 = read()
+    
+    if ans2 == "y" or ans2 = "Y" then
+        Directory.remove("/usr")
+        print("User data removed.") 
+    end
+    print("MaCCOS was removed from your computer.")
+    
+else
+    print("Uninstallation aborted.")
+end
+
+print("Press any key to reboot...")
+read()
+System.reboot()
