@@ -32,6 +32,7 @@ Mar = {
     end,
 
 	DownloadApp = function(app_name)
+        if not flags["--silent"] then print("Downloading app: " .. app_name) end
 		json = Internet.DownloadFile(base_url .. app_name .. "/app.json")
 		data = decode(json)
 
@@ -41,16 +42,16 @@ Mar = {
 		
         files = data.files
 		for i = 1, #files do
-			print("File:" .. files[i])
+            if not flags["--silent"] then print("File:" .. files[i]) end
 			f = fs.open(base_app_dir .. app_name .. "/" .. files[i], "w")
 			f.write(Internet.DownloadFile(base_url .. app_name .. "/" .. files[i]))
 			f.close()
 		end
-
+        if not flags["--silent"] then print("App successfully installed") end
 	end,
 
-	RemoveApp = function(app_name, silent)
-        if not silent then
+	RemoveApp = function(app_name, flags)
+        if not flags["--silent"] then
             print("Removing this app will free up " .. Mar.GetAppSize(app_name) .. "B of space.")
             write("Are you sure you want to remove this app? (y/N): ")
             r = read()
@@ -65,7 +66,7 @@ Mar = {
         end
 	end,
 
-	UpdateApp = function(app_name)
+	UpdateApp = function(app_name, flags)
         json = Internet.DownloadFile(base_url .. app_name .. "/app.json")
 		data = decode(json)
         local_data = Mar.GetAppData(app_name)
@@ -73,13 +74,13 @@ Mar = {
         new_version = data.version.major
         local_version = local_data.version.major
         
-        if  new_version > local_version then
+        if new_version > local_version or flags["--force"] ~= nil then
             print("An update is avaliable!")
             print("New version: " .. new_version .. " - Installed version: " .. local_version)
             --Would you like to update?
             
-            Mar.RemoveApp(app_name, true)
-            Mar.DownloadApp(app_name)
+            Mar.RemoveApp(app_name, { ["--silent"] = true })
+            Mar.DownloadApp(app_name, { ["--silent"] = true })
             print(app_name .. " was successfully updated!")
         else
             print(app_name .. " is up to date. Version: " .. local_version)
