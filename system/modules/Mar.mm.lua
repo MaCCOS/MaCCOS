@@ -39,7 +39,7 @@ Mar = {
 		f.write(json)
 		f.close()
 		
-		files = data.files
+        files = data.files
 		for i = 1, #files do
 			print("File:" .. files[i])
 			f = fs.open(base_app_dir .. app_name .. "/" .. files[i], "w")
