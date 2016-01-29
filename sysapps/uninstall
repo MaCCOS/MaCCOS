@@ -21,10 +21,11 @@ if ans == "y" or ans == "Y" then
         
     end
     startup.writeLine("print('MaCCOS was removed from your computer.')")
-    
+    startup.writeLine("fs.delete('/startup')")
 else
-    startup.writeLine("print('Uninstallation aborted.')")
+    print("Uninstallation aborted.")
 end
+
 
 startup.close()
 
