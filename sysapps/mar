@@ -1,11 +1,16 @@
 --[[ MaCCOS App Store ]]--
-build = 32
+build = 34
 args = { ... }
 flags = {}
 
+usage = "Usage: mar <option> [application]"
+        .. "\nAvaliable options:"
+        .. "\n -i to install an app"
+        .. "\n -r to remove an app"
+        .. "\n -u to update an app"
 
 if #args < 2 then
-	System.println("Usage: mar <option> [application]")
+	System.println(usage)
 else
 	load_module("Mar")
 	load_module("Json")
@@ -19,18 +24,18 @@ else
 
 	-- i -> install
 	if option == "-i" then
-		
 		Mar.DownloadApp(app_name, flags)
-		
-
+        
 	-- r -> remove
 	elseif option == "-r" then
 		Mar.RemoveApp(app_name, flags)
+        
 	-- u -> update
 	elseif option == "-u" then
 		Mar.UpdateApp(app_name, flags)
+        
 	else
-		System.println("Avaliable options: -i -r")
+		System.println(usage)
 	end
 
 
