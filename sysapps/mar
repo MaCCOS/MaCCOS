@@ -5,7 +5,7 @@ flags = {}
 
 
 if #args < 2 then
-	print("Usage: mar <option> [application]")
+	System.println("Usage: mar <option> [application]")
 else
 	load_module("Mar")
 	load_module("Json")
@@ -30,7 +30,7 @@ else
 	elseif option == "-u" then
 		Mar.UpdateApp(app_name, flags)
 	else
-		print("Avaliable options: -i -r")
+		System.println("Avaliable options: -i -r")
 	end
 
 

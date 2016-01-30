@@ -1,17 +1,17 @@
-local _build = 5
+local _build = 7
 
 function start()
-	print("Welcome to MaCCOS [build " .. _build .. "]")
+	System.println("Welcome to MaCCOS [build " .. _build .. "]")
 	return 0
 end
 
 function loop()
-	write("\n/" .. Directory.get() .. "> ")
-	runProgram(read())
+	System.print("\n/" .. Directory.get() .. "> ")
+	runProgram(System.read())
 end
 
 function stop()
-
+    return 0
 end
 
 
@@ -40,7 +40,7 @@ runProgram = function(name)
 		end)
 		coroutine.resume(prog, program)
 	else
-		print("Program not found.")
+		System.println("Program not found.")
 		return
 	end
 end
