@@ -32,7 +32,7 @@ Mar = {
     end,
 
 	DownloadApp = function(app_name, flags)
-        if not flags["--silent"] then print("Downloading app: " .. app_name) end
+        if not flags["--silent"] then System.println("Downloading app: " .. app_name) end
 		json = Internet.DownloadFile(base_url .. app_name .. "/app.json")
 		data = decode(json)
 
@@ -42,24 +42,24 @@ Mar = {
 		
         files = data.files
 		for i = 1, #files do
-            if not flags["--silent"] then print("File:" .. files[i]) end
+            if not flags["--silent"] then System.println("File:" .. files[i]) end
 			f = fs.open(base_app_dir .. app_name .. "/" .. files[i], "w")
 			f.write(Internet.DownloadFile(base_url .. app_name .. "/" .. files[i]))
 			f.close()
 		end
-        if not flags["--silent"] then print("App successfully installed") end
+        if not flags["--silent"] then System.println("App successfully installed") end
 	end,
 
 	RemoveApp = function(app_name, flags)
         if not flags["--silent"] then
-            print("Removing this app will free up " .. Mar.GetAppSize(app_name) .. "B of space.")
-            write("Are you sure you want to remove this app? (y/N): ")
+            System.println("Removing this app will free up " .. Mar.GetAppSize(app_name) .. "B of space.")
+            System.print("Are you sure you want to remove this app? (y/N): ")
             r = read()
             if r == "y" or r == "Y" then
-                print("Deleting app: " .. app_name)
+                System.println("Deleting app: " .. app_name)
                 Directory.remove("/usr/apps/" .. app_name)
             else
-                print("App not removed")
+                System.println("App not removed")
             end
         else
             Directory.remove("/usr/apps/" .. app_name)
@@ -76,16 +76,16 @@ Mar = {
         
         if new_version > local_version or flags["--force"] ~= nil then
             if not flags["--silent"] then
-                print("An update is avaliable!")
-                print("New version: " .. new_version .. " - Installed version: " .. local_version)
+                System.println("An update is avaliable!")
+                System.println("New version: " .. new_version .. " - Installed version: " .. local_version)
             end
             --Would you like to update?
             
             Mar.RemoveApp(app_name, { ["--silent"] = true })
             Mar.DownloadApp(app_name, { ["--silent"] = true })
-            if not flags["--silent"] then print(app_name .. " was successfully updated!") end
+            if not flags["--silent"] then System.println(app_name .. " was successfully updated!") end
         else
-            if not flags["--silent"] then print(app_name .. " is up to date. Version: " .. local_version) end
+            if not flags["--silent"] then System.println(app_name .. " is up to date. Version: " .. local_version) end
         end
         
 	end

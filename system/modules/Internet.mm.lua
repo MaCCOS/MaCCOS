@@ -13,7 +13,7 @@ Internet = {
 
 				requesting = false
 			elseif event == "http_failure" then
-				print("Server didn't respond.")
+				System.println("Server didn't respond.")
 
 				requesting = false
 			end

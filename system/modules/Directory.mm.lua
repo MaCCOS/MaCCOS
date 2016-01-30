@@ -11,7 +11,7 @@ Directory = {
 			Directory._setc()
 			return true
 		else
-			print("Directory not found")
+			System.println("Directory not found")
 			return false
 		end
 	end,
