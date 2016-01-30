@@ -31,7 +31,7 @@ Mar = {
         return app_data
     end,
 
-	DownloadApp = function(app_name)
+	DownloadApp = function(app_name, flags)
         if not flags["--silent"] then print("Downloading app: " .. app_name) end
 		json = Internet.DownloadFile(base_url .. app_name .. "/app.json")
 		data = decode(json)
@@ -75,15 +75,17 @@ Mar = {
         local_version = local_data.version.major
         
         if new_version > local_version or flags["--force"] ~= nil then
-            print("An update is avaliable!")
-            print("New version: " .. new_version .. " - Installed version: " .. local_version)
+            if not flags["--silent"] then
+                print("An update is avaliable!")
+                print("New version: " .. new_version .. " - Installed version: " .. local_version)
+            end
             --Would you like to update?
             
             Mar.RemoveApp(app_name, { ["--silent"] = true })
             Mar.DownloadApp(app_name, { ["--silent"] = true })
-            print(app_name .. " was successfully updated!")
+            if not flags["--silent"] then print(app_name .. " was successfully updated!") end
         else
-            print(app_name .. " is up to date. Version: " .. local_version)
+            if not flags["--silent"] then print(app_name .. " is up to date. Version: " .. local_version) end
         end
         
 	end
