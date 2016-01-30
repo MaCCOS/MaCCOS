@@ -33,25 +33,29 @@ Mar = {
 
 	DownloadApp = function(app_name, flags)
         if not flags["--silent"] then System.println("Downloading app: " .. app_name) end
-		json = Internet.DownloadFile(base_url .. app_name .. "/app.json")
-		data = decode(json)
+        if not Directory.exists("/usr/apps/" .. app_name) then
+            json = Internet.DownloadFile(base_url .. app_name .. "/app.json")
+            data = decode(json)
 
-		f = fs.open(base_app_dir .. app_name .. "/app.json", "w")
-		f.write(json)
-		f.close()
-		
-        files = data.files
-		for i = 1, #files do
-            if not flags["--silent"] then System.println("File:" .. files[i]) end
-			f = fs.open(base_app_dir .. app_name .. "/" .. files[i], "w")
-			f.write(Internet.DownloadFile(base_url .. app_name .. "/" .. files[i]))
-			f.close()
-		end
-        if not flags["--silent"] then System.println("App successfully installed") end
+            f = fs.open(base_app_dir .. app_name .. "/app.json", "w")
+            f.write(json)
+            f.close()
+            
+            files = data.files
+            for i = 1, #files do
+                if not flags["--silent"] then System.println("File:" .. files[i]) end
+                f = fs.open(base_app_dir .. app_name .. "/" .. files[i], "w")
+                f.write(Internet.DownloadFile(base_url .. app_name .. "/" .. files[i]))
+                f.close()
+            end
+            if not flags["--silent"] then System.println("App successfully installed") end
+        else
+            if not flags["--silent"] then System.println("App is already installed!") end
+        end
 	end,
 
 	RemoveApp = function(app_name, flags)
-        if not flags["--silent"] then
+        if not flags["--silent"] and Directory.exists("/usr/apps/" .. app_name) then
             System.println("Removing this app will free up " .. Mar.GetAppSize(app_name) .. "B of space.")
             System.print("Are you sure you want to remove this app? (y/N): ")
             r = read()
@@ -62,7 +66,7 @@ Mar = {
                 System.println("App not removed")
             end
         else
-            Directory.remove("/usr/apps/" .. app_name)
+            if not flags["--silent"] then System.println("App not found.") end
         end
 	end,
 
