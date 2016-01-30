@@ -7,13 +7,16 @@ Logger = {
 	start = function()
         if not _logger_started then
 		  Logger.file = fs.open(_lastlogfile, "w")
+          _logger_started = true
         end
 	end,
+    
 	log = function(string)
-		msg = "[" .. os.time() .. "] " .. string
-		print(msg)
-		Logger.file.writeLine(msg)
+		--msg = "[" .. os.time() .. "] " .. string
+		--print(msg)
+		Logger.file.write(string) --msg)
 	end,
+    
 	stop = function()
         if _logger_started then
             Logger.file.close()
