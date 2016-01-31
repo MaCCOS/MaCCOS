@@ -25,12 +25,6 @@ runProgram = function(name)
 
 	if Directory.isFile(sys_app) then
 		table.remove(program, 1)
---[[
-		prog = coroutine.create(function()
-			os.run(getfenv(), sys_app, unpack(program))
-		end)
-		coroutine.resume(prog, program)
-]]--
 		os.run(getfenv(), sys_app, unpack(program))
 		return
 	elseif Directory.isDir(usr_app) then
