@@ -25,9 +25,11 @@ Logger = {
             f.close()
 
             log = fs.open(_logfile, "a")
-            log.writeLine("\n\n/********************/")
+            log.writeLine("\n\n/*************************************************/")
             log.write(data)
             log.close()
+            
+            _logger_started = false
         end
 	end
 }
