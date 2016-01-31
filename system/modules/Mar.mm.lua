@@ -55,15 +55,19 @@ Mar = {
 	end,
 
 	RemoveApp = function(app_name, flags)
-        if not flags["--silent"] and Directory.exists("/usr/apps/" .. app_name) then
-            System.println("Removing this app will free up " .. Mar.GetAppSize(app_name) .. "B of space.")
-            System.print("Are you sure you want to remove this app? (y/N): ")
-            r = read()
-            if r == "y" or r == "Y" then
-                System.println("Deleting app: " .. app_name)
-                Directory.remove("/usr/apps/" .. app_name)
+        if Directory.exists("/usr/apps/" .. app_name) then
+            if flags["--silent"] then
+                Directory.remove(base_app_dir .. app_name)
             else
-                System.println("App not removed")
+                System.println("Removing this app will free up " .. Mar.GetAppSize(app_name) .. "B of space.")
+                System.print("Are you sure you want to remove this app? (y/N): ")
+                r = read()
+                if r == "y" or r == "Y" then
+                    System.println("Deleting app: " .. app_name)
+                    Directory.remove("/usr/apps/" .. app_name)
+                else
+                    System.println("App not removed")
+                end
             end
         else
             if not flags["--silent"] then System.println("App not found.") end
