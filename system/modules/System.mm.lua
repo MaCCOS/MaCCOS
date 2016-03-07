@@ -1,5 +1,8 @@
 System = {
-	halt = os.shutdown,
+	halt = function()
+        Logger.stop()
+        os.shutdown()
+    end,
     
 	reboot = function()
         Logger.stop()
@@ -9,8 +12,10 @@ System = {
 	exit = function() _running = false end,
     
     print = function(str)
-        write(str)
-        Logger.log(str)
+        if not flags["--silent"] then
+            write(str)
+            Logger.log(str)
+        end
     end,
     
     println = function(str)
