@@ -1,17 +1,20 @@
-local _build = 23
+local _build = 25
 local args = { ... }
 
 local _running = true
 
-modules = {
+flags = {
+    ["--silent"] = false,
+    ["--force"] = false
+}
+
+local modules = {
 	"Directory",
 	"Logger",
 	"Screen",
 	"String",
 	"System",
 	"Internet",
-	--"Mar",
-	--"Json"
 }
 
 function load_module(module_name)
