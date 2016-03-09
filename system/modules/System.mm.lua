@@ -29,10 +29,15 @@ System = {
         return input
     end,
     
+    --[[WIP]]--
     AddToInit = function(program)
-        init_file = fs.open("/system/init", "a")
-        init.writeLine("shell.run('" .. program .. "')")
-        init_file.close()
+        if Directory.exists("/sysapps/" .. program) then
+            init_file = fs.open("/system/init", "a")
+            init_file.writeLine("shell.run('" .. "/sysapps/" .. program .. "')")
+            init_file.close()
+        else
+            System.println("Program not found.")
+        end
     end
     
 }
