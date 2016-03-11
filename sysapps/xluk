@@ -1,0 +1,21 @@
+local function DrawGUI()
+    for i = 1, Screen.getSizeX() do
+        System.print("-")
+    end
+end
+
+function xstart()
+    Screen.clear()
+    Screen.Cursor.setPos(1, 1)
+    
+end
+
+function xloop()
+    DrawGUI()
+    sleep(1)
+end
+
+function xstop()
+
+end
+
