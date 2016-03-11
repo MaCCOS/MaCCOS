@@ -42,7 +42,7 @@ function kmain( ... )
 			loop()
 		end
 	else
-		printError("Error code: " .. state)
+		printError("Error code: " .. tostring(state))
 	end
     
 	stop()
