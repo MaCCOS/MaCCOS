@@ -2,15 +2,18 @@ local _build = 7
 
 function start()
 	System.println("Welcome to MaCCOS [build " .. _build .. "]")
+    xstart()
 	return 0
 end
 
 function loop()
-	System.print("\n/" .. Directory.get() .. "> ")
-	runProgram(System.read())
+	--System.print("\n/" .. Directory.get() .. "> ")
+	--runProgram(System.read())
+    xloop()
 end
 
 function stop()
+    xstop()
     return 0
 end
 
