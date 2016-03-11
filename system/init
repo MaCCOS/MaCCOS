@@ -1,1 +1,2 @@
 --This file gets executed before system starts (works as .initrc on Linux)
+dofile("/sysapps/xluk")
