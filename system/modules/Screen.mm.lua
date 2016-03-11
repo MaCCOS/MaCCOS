@@ -26,5 +26,8 @@ Screen = {
 	Drawing = {
 
 	},
+    getSize = term.getSize,
+    getSizeX = function() return ({ Screen.getSize()} )[1] end,
+    getSizeY = function() return ({ Screen.getSize() })[2] end,
 	clear = term.clear
 }
