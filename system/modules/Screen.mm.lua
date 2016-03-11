@@ -1,5 +1,8 @@
 Screen = {
 	Cursor = {
+        _oldx = 0,
+        _oldy = 0,
+        
 		_x = 1,
 		_y = 1,
 		_sp = function() term.setCursorPos(Screen.Cursor._x, Screen.Cursor._y) end,
@@ -11,7 +14,16 @@ Screen = {
 			Screen.Cursor._sp()
 		end,
 		setX = function(int) _x = int _sp() end,
-		setY = function(int) _y = int _sp() end
+		setY = function(int) _y = int _sp() end,
+        
+        savePos = function()
+            Screen.Cursor._oldx = Screen.Cursor._x
+            Screen.Cursor._oldy = Screen.Cursor._y
+        end,        
+        restorePos = function()
+            Screen.Cursor._x = Screen.Cursor._oldx
+            Screen.Cursor._y = Screen.Cursor._oldy
+        end
 	},
 	Color = {
 		Bg = {
@@ -31,7 +43,7 @@ Screen = {
         end,
         drawLine = function(minx, miny, maxx, maxy, color)
             paintutils.drawLine(minx, miny, maxx, maxy, color)
-            Screen.Cursor. _sp()
+            Screen.Cursor._sp()
         end
 	},
     getSize = term.getSize,
