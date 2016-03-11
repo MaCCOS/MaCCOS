@@ -24,7 +24,15 @@ Screen = {
 		}
 	},
 	Drawing = {
-
+        drawPixel = function(x, y, bgcol, txcol, str)
+            paintutils.drawPixel(x, y, bgcol)
+            write(str)
+            Screen.Cursor._sp()
+        end,
+        drawLine = function(minx, miny, maxx, maxy, color)
+            paintutils.drawLine(minx, miny, maxx, maxy, color)
+            Screen.Cursor. _sp()
+        end
 	},
     getSize = term.getSize,
     getSizeX = function() return ({ Screen.getSize()} )[1] end,
