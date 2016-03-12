@@ -5,6 +5,9 @@ local function DrawGUI()
     Drawing.setBgColor(colors.white)
     Drawing.drawRect(1, 1, maxx, maxy, colors.blue)
     
+    Screen.Cursor.setPos(2, 1)
+    System.print("MaCCOS " .. getBuild())
+    
     Drawing.drawPixel(maxx, 1, colors.red, colors.white, 'X')
 end
 

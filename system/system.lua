@@ -41,3 +41,7 @@ runProgram = function(name)
 		return
 	end
 end
+
+getBuild = function()
+    return _build
+end
