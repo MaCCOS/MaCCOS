@@ -15,6 +15,7 @@ local modules = {
 	"String",
 	"System",
 	"Internet",
+    "Drawing",
 }
 
 function load_module(module_name)
