@@ -6,17 +6,17 @@ Logger = {
 	file = nil,
 	start = function()
         if not _logger_started then
-		  Logger.file = fs.open(_lastlogfile, "w")
+		  Logger.file = _OLD_ENV.fs.open(_lastlogfile, "w")
           _logger_started = true
         end
 	end,
-    
+
 	log = function(string)
 		--msg = "[" .. os.time() .. "] " .. string
 		--print(msg)
 		Logger.file.write(string) --msg)
 	end,
-    
+
 	stop = function()
         if _logger_started then
             Logger.file.close()
@@ -28,7 +28,7 @@ Logger = {
             log.writeLine("\n\n/*************************************************/")
             log.write(data)
             log.close()
-            
+
             _logger_started = false
         end
 	end

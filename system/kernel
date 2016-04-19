@@ -1,9 +1,11 @@
-local _build = 25
+local _build = 30
 local args = { ... }
 
 local _running = true
 
-flags = {
+_MAC = { _OLD_ENV = _G }
+
+_MAC.flags = {
     ["--silent"] = false,
     ["--force"] = false
 }
@@ -19,7 +21,9 @@ local modules = {
 }
 
 function load_module(module_name)
-	dofile("/system/modules/" .. module_name .. ".mm.lua")
+	local mm = loadfile("/system/modules/" .. module_name .. ".mm.lua")
+    setfenv(mm, _MAC)
+    mm()
 end
 
 function unload_module(module_name)
@@ -27,39 +31,47 @@ function unload_module(module_name)
 end
 
 function kmain( ... )
+    local args = { ... }
+    local SFile = args[2]
+    
+    
 	for i = 1, #modules do
 		load_module(modules[i])
 	end
 
-	Logger.start()
-	System.println("Loading MaCCOS kernel [build " .. _build .. "]")
+	_MAC.Logger.start()
+	_MAC.System.println("Loading MaCCOS kernel [build " .. _build .. "]")
 
-	dofile("/system/system.lua")
-	dofile("/system/init")
-
-	state = start()
+	--dofile("/system/system.lua")
+	--dofile("/system/init")
+    sys = loadfile("/system/system.lua", _MAC)
+    setfenv(sys, _MAC)
+    sys()
+    
+	state = _MAC.start()
 	if state == 0 then
 		while _running do
-			loop()
+			_MAC.loop()
 		end
 	else
 		printError("Error code: " .. tostring(state))
 	end
-    
-	stop()
-	Logger.stop()
-end
 
+	_MAC.stop()
+	_MAC.Logger.stop()
+end
+--[[]]
 local ok, err = pcall(function() kmain(unpack(args)) end)
 if not ok then
 	load_module("Logger")
     load_module("System")
-    
-    Logger.start()
-	System.println("\nSomething went wrong :(")
-	System.println(err)
-	Logger.stop()
-    
+
+    _MAC.Logger.start()
+	_MAC.System.println("\nSomething went wrong :(")
+	_MAC.System.println(err)
+	_MAC.Logger.stop()
+
     unload_module("System")
     unload_module("Logger")
 end
+--]]--

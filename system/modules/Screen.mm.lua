@@ -5,7 +5,7 @@ Screen = {
         
 		_x = 1,
 		_y = 1,
-		_sp = function() term.setCursorPos(Screen.Cursor._x, Screen.Cursor._y) end,
+		_sp = function() _OLD_ENV.term.setCursorPos(Screen.Cursor._x, Screen.Cursor._y) end,
 
 		getPos = function() return {_x, _y}	end,
 		setPos = function(intX, intY)
@@ -27,16 +27,16 @@ Screen = {
 	},
 	Color = {
 		Bg = {
-			set = term.setBackgroundColor,
-			get = term.getBackgroundColor
+			set = _OLD_ENV.term.setBackgroundColor,
+			get = _OLD_ENV.term.getBackgroundColor
 		},
 		Text = {
-			set = term.setTextColor,
-			get = term.getTextColor
+			set = _OLD_ENV.term.setTextColor,
+			get = _OLD_ENV.term.getTextColor
 		}
 	},
-    getSize = term.getSize,
+    getSize = _OLD_ENV.term.getSize,
     getSizeX = function() return ({ Screen.getSize()} )[1] end,
     getSizeY = function() return ({ Screen.getSize() })[2] end,
-	clear = term.clear
+	clear = _OLD_ENV.term.clear
 }

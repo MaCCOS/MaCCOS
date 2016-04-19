@@ -5,7 +5,7 @@ String = {
 		end
 		local t = {}
 		i = 1
-		for str in string.gmatch(input, "([^" .. reg .. "]+)") do
+		for str in _OLD_ENV.string.gmatch(input, "([^" .. reg .. "]+)") do
 			t[i] = str
 			i = i + 1
 		end
