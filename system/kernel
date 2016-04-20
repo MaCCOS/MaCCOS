@@ -10,45 +10,56 @@ _MAC.flags = {
     ["--force"] = false
 }
 
-local modules = {
-	"Directory",
-	"Logger",
-	"Screen",
-	"String",
-	"System",
-	"Internet",
-    "Drawing",
+ modules = {
+    ["Directory"] = false,
+    ["Logger"] = false,
+    ["String"] = false,
+	["Screen"] = false,
+    ["System"] = false,
+    ["Internet"] = false,
+    ["Drawing"] = false
 }
 
 function load_module(module_name)
-	local mm = loadfile("/system/modules/" .. module_name .. ".mm.lua")
-    setfenv(mm, _MAC)
-    mm()
+	if not modules[module_name] then
+		print("Loading module " .. module_name)
+		local mm = loadfile("/system/modules/" .. module_name .. ".mm.lua")
+	    setfenv(mm, _MAC)
+	    mm()
+		modules[module_name] = true
+	else
+		print("Module " .. module_name .. " already loaded!")
+	end
 end
 
 function unload_module(module_name)
-	_MAC[module_name] = nil
+	if modules[module_name] then
+		print("Unloading module " .. module_name)
+		_MAC[module_name] = nil
+		modules[module_name] = false
+	else
+		print("Module " .. module_name .. " was not loaded!")
+	end
+
 end
 
 function kmain( ... )
-    local args = { ... }
-    local SFile = args[2]
-    
-    
-	for i = 1, #modules do
-		load_module(modules[i])
+
+	--[[ Load modules ]]--
+	for k, _ in pairs(modules) do
+		load_module(k)
 	end
 
 	_MAC.Logger.start()
 	_MAC.System.println("Loading MaCCOS kernel [build " .. _build .. "]")
 
-	--dofile("/system/system.lua")
-	--dofile("/system/init")
-    sys = loadfile("/system/system.lua", _MAC)
-    setfenv(sys, _MAC)
-    sys()
-    
+	--[[ Load System ]]--
+    loadfile( ... , _MAC)()
+
+	--[[ System start() ]]--
 	state = _MAC.start()
+
+	--[[ Main System loop ]]--
 	if state == 0 then
 		while _running do
 			_MAC.loop()
@@ -57,10 +68,11 @@ function kmain( ... )
 		printError("Error code: " .. tostring(state))
 	end
 
+	--[[ System stop ]]--
 	_MAC.stop()
 	_MAC.Logger.stop()
 end
---[[]]
+
 local ok, err = pcall(function() kmain(unpack(args)) end)
 if not ok then
 	load_module("Logger")
@@ -74,4 +86,3 @@ if not ok then
     unload_module("System")
     unload_module("Logger")
 end
---]]--
