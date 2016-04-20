@@ -27,7 +27,7 @@ function load_module(module_name)
 end
 
 function unload_module(module_name)
-	_ENV[module_name] = nil
+	_MAC[module_name] = nil
 end
 
 function kmain( ... )

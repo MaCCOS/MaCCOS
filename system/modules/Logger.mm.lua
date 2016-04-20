@@ -20,11 +20,11 @@ Logger = {
 	stop = function()
         if _logger_started then
             Logger.file.close()
-            f = fs.open(_lastlogfile, "r")
+            f = _OLD_ENV.fs.open(_lastlogfile, "r")
             data = f.readAll()
             f.close()
 
-            log = fs.open(_logfile, "a")
+            log = _OLD_ENV.fs.open(_logfile, "a")
             log.writeLine("\n\n/*************************************************/")
             log.write(data)
             log.close()

@@ -30,11 +30,11 @@ runProgram = function(name)
 
 	if Directory.isFile(sys_app) then
 		_OLD_ENV.table.remove(program, 1)
-		_OLD_ENV.os.run(_OLD_ENV.getfenv(), sys_app, _OLD_ENV.unpack(program))
+		_OLD_ENV.os.run(_MAC, sys_app, _OLD_ENV.unpack(program))
 		return
 	elseif Directory.isDir(usr_app) then
 		prog = _OLD_ENV.coroutine.create(function()
-			os.run(_OLD_ENV.getfenv(), usr_app .. "/main.lua", _OLD_ENV.unpack(program))
+			os.run(_MAC, usr_app .. "/main.lua", _OLD_ENV.unpack(program))
 			main()
 		end)
 		_OLD_ENV.coroutine.resume(prog, program)
