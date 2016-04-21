@@ -19,3 +19,5 @@ local kernel = loadfile(kernel_file, _MAC)
 kernel(system_file)
 
 _MAC.Logger.stop()
+
+_MAC = nil
