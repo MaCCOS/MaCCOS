@@ -1,31 +1,20 @@
-local _build = 30
+local _build = 31
 local args = { ... }
 
 local _running = true
 
-_MAC = { _OLD_ENV = _G }
-
-_MAC.flags = {
-    ["--silent"] = false,
-    ["--force"] = false
-}
-
- modules = {
+local modules = {
     ["Directory"] = false,
-    ["Logger"] = false,
     ["String"] = false,
 	["Screen"] = false,
-    ["System"] = false,
     ["Internet"] = false,
     ["Drawing"] = false
 }
 
 function load_module(module_name)
 	if not modules[module_name] then
-		print("Loading module " .. module_name)
-		local mm = loadfile("/system/modules/" .. module_name .. ".mm.lua")
-	    setfenv(mm, _MAC)
-	    mm()
+		System.debug(0, "Loading module " .. module_name)
+		_OENV.loadfile("/system/modules/" .. module_name .. ".mm.lua", _OENV.getfenv())()
 		modules[module_name] = true
 	else
 		print("Module " .. module_name .. " already loaded!")
@@ -38,7 +27,7 @@ function unload_module(module_name)
 		_MAC[module_name] = nil
 		modules[module_name] = false
 	else
-		print("Module " .. module_name .. " was not loaded!")
+		System.println("Module " .. module_name .. " was not loaded!")
 	end
 
 end
@@ -46,43 +35,37 @@ end
 function kmain( ... )
 
 	--[[ Load modules ]]--
-	for k, _ in pairs(modules) do
+	for k, _ in _OENV.pairs(modules) do
 		load_module(k)
 	end
 
-	_MAC.Logger.start()
-	_MAC.System.println("Loading MaCCOS kernel [build " .. _build .. "]")
+	System.println("Loading MaCCOS kernel [build " .. _build .. "]")
 
 	--[[ Load System ]]--
-    loadfile( ... , _MAC)()
+    _OENV.loadfile( ... , _OENV.getfenv())()
 
 	--[[ System start() ]]--
-	state = _MAC.start()
+	local state = start()
 
 	--[[ Main System loop ]]--
 	if state == 0 then
 		while _running do
-			_MAC.loop()
+			loop()
 		end
 	else
-		printError("Error code: " .. tostring(state))
+		System.debug(3, "Error code: " .. _OENV.tostring(state))
 	end
 
 	--[[ System stop ]]--
-	_MAC.stop()
-	_MAC.Logger.stop()
+	stop()
 end
 
-local ok, err = pcall(function() kmain(unpack(args)) end)
+local ok, err = _OENV.pcall(function() kmain(_OENV.unpack(args)) end)
 if not ok then
-	load_module("Logger")
-    load_module("System")
 
-    _MAC.Logger.start()
-	_MAC.System.println("\nSomething went wrong :(")
-	_MAC.System.println(err)
-	_MAC.Logger.stop()
+    Logger.start()
+	System.println("\nSomething went wrong :(")
+	System.println(err)
+	Logger.stop()
 
-    unload_module("System")
-    unload_module("Logger")
 end
