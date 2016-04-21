@@ -1,4 +1,4 @@
-local _build = 32
+local _build = 33
 local args = { ... }
 
 local _running = true
@@ -24,8 +24,8 @@ end
 function unload_module(module_name)
 	if modules[module_name] then
 		System.debug(0, "Unloading module " .. module_name)
-		_MAC[module_name] = nil
 		modules[module_name] = false
+		module_name = nil
 	else
 		System.debug(2, "Module " .. module_name .. " was not loaded!")
 	end
