@@ -16,10 +16,10 @@ Directory = {
 		end
 	end,
 	get = function() return _dir end,
-	list = _OLD_ENV.fs.list,
-	exists = _OLD_ENV.fs.exists,
-	isDir = _OLD_ENV.fs.isDir,
-	create = _OLD_ENV.fs.makeDir,
-	remove = _OLD_ENV.fs.delete,
+	list = _OENV.fs.list,
+	exists = _OENV.fs.exists,
+	isDir = _OENV.fs.isDir,
+	create = _OENV.fs.makeDir,
+	remove = _OENV.fs.delete,
 	isFile = function(str) return Directory.exists(str) and not Directory.isDir(str) end
 }

@@ -6,25 +6,27 @@ Logger = {
 	file = nil,
 	start = function()
         if not _logger_started then
-		  Logger.file = _OLD_ENV.fs.open(_lastlogfile, "w")
+		  Logger.file = _OENV.fs.open(_lastlogfile, "w")
           _logger_started = true
         end
 	end,
 
 	log = function(string)
-		--msg = "[" .. os.time() .. "] " .. string
-		--print(msg)
-		Logger.file.write(string) --msg)
+		if _logger_started then
+			Logger.file.write(string)
+		else
+			System.debug(3, "Logger is not started!")
+		end
 	end,
 
 	stop = function()
         if _logger_started then
             Logger.file.close()
-            f = _OLD_ENV.fs.open(_lastlogfile, "r")
+            f = _OENV.fs.open(_lastlogfile, "r")
             data = f.readAll()
             f.close()
 
-            log = _OLD_ENV.fs.open(_logfile, "a")
+            log = _OENV.fs.open(_logfile, "a")
             log.writeLine("\n\n/*************************************************/")
             log.write(data)
             log.close()
