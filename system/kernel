@@ -1,4 +1,4 @@
-local _build = 31
+local _build = 32
 local args = { ... }
 
 local _running = true
@@ -17,17 +17,17 @@ function load_module(module_name)
 		_OENV.loadfile("/system/modules/" .. module_name .. ".mm.lua", _OENV.getfenv())()
 		modules[module_name] = true
 	else
-		print("Module " .. module_name .. " already loaded!")
+		System.debug(2,"Module " .. module_name .. " already loaded!")
 	end
 end
 
 function unload_module(module_name)
 	if modules[module_name] then
-		print("Unloading module " .. module_name)
+		System.debug(0, "Unloading module " .. module_name)
 		_MAC[module_name] = nil
 		modules[module_name] = false
 	else
-		System.println("Module " .. module_name .. " was not loaded!")
+		System.debug(2, "Module " .. module_name .. " was not loaded!")
 	end
 
 end
@@ -39,7 +39,7 @@ function kmain( ... )
 		load_module(k)
 	end
 
-	System.println("Loading MaCCOS kernel [build " .. _build .. "]")
+	System.debug(0, "Loading MaCCOS kernel [build " .. _build .. "]")
 
 	--[[ Load System ]]--
     _OENV.loadfile( ... , _OENV.getfenv())()
@@ -64,8 +64,8 @@ local ok, err = _OENV.pcall(function() kmain(_OENV.unpack(args)) end)
 if not ok then
 
     Logger.start()
-	System.println("\nSomething went wrong :(")
-	System.println(err)
+	System.debug(3, "\nSomething went wrong :(")
+	System.debug(3, err)
 	Logger.stop()
 
 end
