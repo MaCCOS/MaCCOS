@@ -2,7 +2,8 @@ local _build = 10
 
 function start()
 	System.println("Welcome to MaCCOS [build " .. _build .. "]")
-    _OLD_ENV.os.run(_OLD_ENV.getfenv(), "/system/init")
+    _OENV.os.run(_OENV.getfenv(), "/system/init")
+	--xstart()
 	return 0
 end
 
@@ -25,19 +26,19 @@ runProgram = function(name)
 	if name == nil then return end
 	program = String.split(name)
 
-	sys_app = "/sysapps/" .. _OLD_ENV.tostring(program[1])
-	usr_app = "/usr/apps/" .. _OLD_ENV.tostring(program[1])
+	sys_app = "/sysapps/" .. _OENV.tostring(program[1])
+	usr_app = "/usr/apps/" .. _OENV.tostring(program[1])
 
 	if Directory.isFile(sys_app) then
-		_OLD_ENV.table.remove(program, 1)
-		_OLD_ENV.os.run(_OLD_ENV.getfenv(), sys_app, _OLD_ENV.unpack(program))
+		_OENV.table.remove(program, 1)
+		_OENV.os.run(_OENV.getfenv(), sys_app, _OENV.unpack(program))
 		return
 	elseif Directory.isDir(usr_app) then
-		prog = _OLD_ENV.coroutine.create(function()
-			os.run(_OLD_ENV.getfenv(), usr_app .. "/main.lua", _OLD_ENV.unpack(program))
+		prog = _OENV.coroutine.create(function()
+			os.run(_OENV.getfenv(), usr_app .. "/main.lua", _OENV.unpack(program))
 			main()
 		end)
-		_OLD_ENV.coroutine.resume(prog, program)
+		_OENV.coroutine.resume(prog, program)
 	else
 		System.println("Program not found.")
 		return
