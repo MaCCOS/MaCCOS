@@ -8,6 +8,8 @@ _MAC = {
 			loadfile(path, _MAC)(...)
 		end,
 		GetEnv = getfenv,
+		ToString = tostring,
+		shell = shell,
 
 	}
 }
@@ -20,7 +22,7 @@ _MAC.flags = {
 }
 
 --[[ Manually load Logger and System modules, this should always be loaded ]]--
-loadfile("/system/modules/" .. "Logger" .. ".mm.lua", _MAC)()
+loadfile("/system/modules/Logger.mm.lua", _MAC)()
 loadfile("/system/modules/System.mm.lua", _MAC)()
 
 _MAC.Logger.start()
