@@ -1,12 +1,12 @@
 System = {
 	halt = function()
         Logger.stop()
-        _OLD_ENV.os.shutdown()
+        _OENV.os.shutdown()
     end,
 
 	reboot = function()
         Logger.stop()
-        _OLD_ENV.os.reboot()
+        _OENV.os.reboot()
     end,
 
 	exit = function() _running = false end,
