@@ -1,12 +1,12 @@
 _dir = ""
 
 Directory = {
-	_setc = function() shell.setDir(_dir) end,
+	_setc = function() Utils.shell.setDir(_dir) end,
 
 	set = function(str)
-		dir = shell.resolve(str)
+		dir = Utils.shell.resolve(str)
 		if Directory.exists(dir) and Directory.isDir(dir) then
-			_dir = shell.resolve(str)
+			_dir = Utils.shell.resolve(str)
 			if _dir == nil then _dir = "" end
 			Directory._setc()
 			return true
