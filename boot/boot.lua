@@ -1,12 +1,21 @@
 local kernel_file = "/system/kernel"
 local system_file = "/system/system.lua"
 
-_MAC = { _OENV = _G }
+_MAC = {
+	_OENV = _G,
+	Utils = {
+		RunFile = function(path, ...)
+			loadfile(path, _MAC)(...)
+		end,
+		GetEnv = getfenv,
+
+	}
+}
 
 _MAC.flags = {
     ["--silent"] = false,
     ["--force"] = false,
-	["--debug"] = true,
+	["--debug"] = false,
 	["--nogui"] = true
 }
 

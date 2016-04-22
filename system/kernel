@@ -1,4 +1,4 @@
-local _build = 33
+local _build = 34
 local args = { ... }
 
 _running = true
@@ -14,7 +14,9 @@ local modules = {
 function load_module(module_name)
 	if not modules[module_name] then
 		System.debug(0, "Loading module " .. module_name)
-		_OENV.loadfile("/system/modules/" .. module_name .. ".mm.lua", _OENV.getfenv())()
+		Utils.RunFile("/system/modules/" .. module_name .. ".mm.lua")
+
+		--[[ Mark module as loaded ]]--
 		modules[module_name] = true
 	else
 		System.debug(2,"Module " .. module_name .. " already loaded!")
@@ -24,6 +26,8 @@ end
 function unload_module(module_name)
 	if modules[module_name] then
 		System.debug(0, "Unloading module " .. module_name)
+
+		--[[ Mark module as unloaded ]]--
 		modules[module_name] = false
 		module_name = nil
 	else
@@ -32,7 +36,7 @@ function unload_module(module_name)
 
 end
 
-function kmain( ... )
+local function kmain( ... )
 
 	--[[ Load modules ]]--
 	for k, _ in _OENV.pairs(modules) do
@@ -42,7 +46,7 @@ function kmain( ... )
 	System.debug(0, "Loading MaCCOS kernel [build " .. _build .. "]")
 
 	--[[ Load System ]]--
-    _OENV.loadfile( ... , _OENV.getfenv())()
+	Utils.RunFile(...)
 
 	--[[ System start() ]]--
 	local state = start()
