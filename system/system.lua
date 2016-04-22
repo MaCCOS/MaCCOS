@@ -3,7 +3,9 @@ local _build = 10
 function start()
 	System.println("Welcome to MaCCOS [build " .. _build .. "]")
     _OENV.os.run(_OENV.getfenv(), "/system/init")
-	--xstart()
+	if not flags["--nogui"] then
+		xstart()
+	end
 	return 0
 end
 
