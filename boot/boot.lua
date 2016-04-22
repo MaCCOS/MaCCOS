@@ -6,7 +6,7 @@ _MAC = { _OENV = _G }
 _MAC.flags = {
     ["--silent"] = false,
     ["--force"] = false,
-	["--debug"] = true
+	["--debug"] = false,
 	["--nogui"] = true
 }
 
