@@ -6,7 +6,7 @@ _MAC = { _OENV = _G }
 _MAC.flags = {
     ["--silent"] = false,
     ["--force"] = false,
-	["--debug"] = false,
+	["--debug"] = true,
 	["--nogui"] = true
 }
 
@@ -22,4 +22,6 @@ kernel(system_file)
 
 _MAC.Logger.stop()
 
-_MAC = nil
+if not _MAC.flags["--debug"] then
+	_MAC = nil
+end
