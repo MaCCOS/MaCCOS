@@ -27,7 +27,7 @@ loadfile("/system/modules/System.mm.lua", _MAC)()
 
 _MAC.Logger.start()
 
-_MAC.System.debug(0, "Loading kernel")
+_MAC.System.Debug(0, "Loading kernel")
 local kernel = loadfile(kernel_file, _MAC)
 kernel(system_file)
 

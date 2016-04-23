@@ -1,44 +1,53 @@
 System = {
-	halt = function()
+	Halt = function()
         Logger.stop()
         _OENV.os.shutdown()
     end,
 
-	reboot = function()
+	Reboot = function()
         Logger.stop()
         _OENV.os.reboot()
     end,
 
-	exit = function() _running = false end,
+	Exit = function() _running = false end,
 
-    print = function(str)
+    Print = function(str)
         if not flags["--silent"] then
             _OENV.write(str)
             Logger.log(str)
         end
     end,
 
-    println = function(str)
-        System.print(str .. "\n")
+    PrintLn = function(str)
+        System.Print(str .. "\n")
     end,
 
-    read = function()
+    Read = function()
         input = _OENV.read()
         Logger.log(input)
 
         return input
     end,
 
-	debug = function(level, msg)
+	Debug = function(level, msg)
 		if flags["--debug"] then
 			if     level == 0 then level = "INFO"
 			elseif level == 1 then level = "WARNING"
 			elseif level == 2 then level = "ERROR"
 			elseif level == 3 then level = "FATAL"
 			end
-			System.println("[" .. level .. "] " .. msg)
+			System.PrintLn("[" .. level .. "] " .. msg)
 		end
 	end,
+
+	GetUsrApps = function()
+		return Directory.list("/sysapps")
+	end,
+
+	GetSysApps = function()
+		return Directory.list("/usr/apps")
+	end,
+
 
     --[[WIP]]--
     AddToInit = function(program)

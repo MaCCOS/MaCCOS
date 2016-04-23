@@ -1,4 +1,4 @@
-local _build = 34
+local _build = 35
 local args = { ... }
 
 _running = true
@@ -13,25 +13,25 @@ local modules = {
 
 function load_module(module_name)
 	if not modules[module_name] then
-		System.debug(0, "Loading module " .. module_name)
+		System.Debug(0, "Loading module " .. module_name)
 		Utils.RunFile("/system/modules/" .. module_name .. ".mm.lua")
 
 		--[[ Mark module as loaded ]]--
 		modules[module_name] = true
 	else
-		System.debug(2,"Module " .. module_name .. " already loaded!")
+		System.Debug(2,"Module " .. module_name .. " already loaded!")
 	end
 end
 
 function unload_module(module_name)
 	if modules[module_name] then
-		System.debug(0, "Unloading module " .. module_name)
+		System.Debug(0, "Unloading module " .. module_name)
 
 		--[[ Mark module as unloaded ]]--
 		modules[module_name] = false
 		module_name = nil
 	else
-		System.debug(2, "Module " .. module_name .. " was not loaded!")
+		System.Debug(2, "Module " .. module_name .. " was not loaded!")
 	end
 
 end
@@ -43,7 +43,7 @@ local function kmain( ... )
 		load_module(k)
 	end
 
-	System.debug(0, "Loading MaCCOS kernel [build " .. _build .. "]")
+	System.Debug(0, "Loading MaCCOS kernel [build " .. _build .. "]")
 
 	--[[ Load System ]]--
 	Utils.RunFile(...)
@@ -57,7 +57,7 @@ local function kmain( ... )
 			loop()
 		end
 	else
-		System.debug(3, "Error code: " .. _OENV.tostring(state))
+		System.Debug(3, "Error code: " .. _OENV.tostring(state))
 	end
 
 	--[[ System stop ]]--
@@ -68,8 +68,8 @@ local ok, err = _OENV.pcall(function() kmain(_OENV.unpack(args)) end)
 if not ok then
 
     Logger.start()
-	System.debug(3, "\nSomething went wrong :(")
-	System.debug(3, err)
+	System.Debug(3, "\nSomething went wrong :(")
+	System.Debug(3, err)
 	Logger.stop()
 
 end

@@ -1,7 +1,7 @@
-local _build = 13
+local _build = 14
 
 function start()
-	System.println("Welcome to MaCCOS [build " .. _build .. "]")
+	System.PrintLn("Welcome to MaCCOS [build " .. _build .. "]")
     _OENV.os.run(Utils.GetEnv(), "/system/init")
 	if not flags["--nogui"] then
 		xstart()
@@ -13,8 +13,8 @@ function loop()
     if xluk == true then
         xloop()
     else
-        System.print("\n/" .. Directory.get() .. "> ")
-	    runProgram(System.read())
+        System.Print("\n/" .. Directory.get() .. "> ")
+	    runProgram(System.Read())
     end
 end
 
@@ -28,8 +28,8 @@ runProgram = function(name)
 	if name == nil then return end
 	program = String.split(name)
 
-	sys_app = "/sysapps/" .. Utils.ToString(program[1])
-	usr_app = "/usr/apps/" .. Utils.ToString(program[1])
+	local sys_app = "/sysapps/" .. Utils.ToString(program[1])
+	local usr_app = "/usr/apps/" .. Utils.ToString(program[1])
 
 	if Directory.isFile(sys_app) then
 
@@ -39,7 +39,7 @@ runProgram = function(name)
 
 	elseif Directory.isDir(usr_app) then
 
-		prog = _OENV.coroutine.create(function()
+		local prog = _OENV.coroutine.create(function()
 			os.run(Utils.GetEnv(), usr_app .. "/main.lua", _OENV.unpack(program))
 			main()
 		end)
@@ -47,7 +47,7 @@ runProgram = function(name)
 
 	else
 
-		System.println("Program not found.")
+		System.PrintLn("Program not found.")
 		return
 
 	end
